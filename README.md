@@ -44,10 +44,10 @@ If `npx playwright install` fails due to firewall/network issues, follow these s
 2. **Use System Browser**: Tell Playwright to use the Chrome or Edge already installed on your laptop.
    ```bash
    # Use Microsoft Edge
-   BROWSER_CHANNEL=msedge npm test
+   npm run test:edge
 
    # Use Google Chrome
-   BROWSER_CHANNEL=chrome npm test
+   npm run test:chrome
    ```
 
 ---

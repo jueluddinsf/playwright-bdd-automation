@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js",
+    "test:edge": "BROWSER_CHANNEL=msedge cucumber-js",
+    "test:chrome": "BROWSER_CHANNEL=chrome cucumber-js",
     "lint": "eslint actions page-objects step-definitions setup"
   },
   "keywords": [],
