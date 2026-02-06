@@ -6,7 +6,10 @@ setDefaultTimeout(60000);
 let browser;
 
 BeforeAll(async () => {
-  browser = await chromium.launch({ headless: false });
+  browser = await chromium.launch({
+    headless: false,
+    channel: process.env.BROWSER_CHANNEL // Support 'msedge', 'chrome' etc.
+  });
 });
 
 AfterAll(async () => {

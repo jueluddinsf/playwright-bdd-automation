@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Current Feature",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/.bin/cucumber-js",
+            "args": [
+                "${file}",
+                "--tags",
+                "not @ignore"
+            ],
+            "console": "integratedTerminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "env": {
+                "BROWSER_CHANNEL": "msedge"
+            }
+        }
+    ]
+}
