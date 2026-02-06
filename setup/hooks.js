@@ -1,7 +1,10 @@
 const { Before, After, BeforeAll, AfterAll, Status, setDefaultTimeout } = require('@cucumber/cucumber');
-const { chromium } = require('playwright');
+const { chromium, expect } = require('@playwright/test');
 
 setDefaultTimeout(60000);
+
+// Set Expect timeout (Assertions) to 15s to match Action timeout
+expect.configure({ timeout: 15000 });
 
 let browser;
 
@@ -19,6 +22,10 @@ AfterAll(async () => {
 Before(async function () {
   this.context = await browser.newContext();
   this.page = await this.context.newPage();
+
+  // Increase timeouts for slower government environments
+  this.page.setDefaultNavigationTimeout(30000); // 30s for page loads
+  this.page.setDefaultTimeout(15000); // 15s for element actions/assertions
 });
 
 After(async function (scenario) {

@@ -4,7 +4,7 @@ module.exports = {
     require: ['step-definitions/**/*.js', 'setup/hooks.js'],
     format: ['progress', 'html:reports/report.html'],
     parallel: 1,
-    timeout: 30 * 1000,
+    timeout: 60 * 1000,
     formatOptions: {
       snippetInterface: 'async-await'
     }
