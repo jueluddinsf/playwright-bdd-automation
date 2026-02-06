@@ -66,3 +66,13 @@ Then('the element {string} should have class {string}', async function (key, cla
 Then('the url should be {string}', async function (url) {
     await expect(this.page).toHaveURL(url);
 });
+
+Then('I should see text {string}', async function (text) {
+    await expect(this.page.locator('body')).toContainText(text);
+});
+
+Then('I should not see text {string}', async function (text) {
+    await expect(this.page.locator('body')).not.toContainText(text);
+});
+
+

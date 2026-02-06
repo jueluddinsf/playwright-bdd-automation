@@ -8,3 +8,10 @@ Feature: Reusable Steps Demo
         Then I should see "inventory.title"
         And the url should contain "inventory.html"
         And the element "inventory.title" should have exact text "Products"
+
+    @text-validation
+    Scenario: Validate generic text presence
+        Given I navigate to "BASE_URL"
+        Then I should see text "Swag Labs"
+        And I should not see text "Pizza Hut"
+        And the element "login.loginButton" should contain text "Login"
