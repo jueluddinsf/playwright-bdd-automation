@@ -1,0 +1,22 @@
+{
+  "name": "playwright-cucumber-e2e-boilerplate",
+  "version": "1.0.0",
+  "description": "Sanitized and Modernized Playwright Cucumber Framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js",
+    "lint": "eslint actions page-objects step-definitions setup"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.0.0",
+    "@cucumber/pretty-formatter": "^1.0.0",
+    "@playwright/test": "^1.40.0",
+    "playwright": "^1.40.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-playwright": "^0.22.0",
+    "prettier": "^3.1.0"
+  }
+}

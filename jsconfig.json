@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2020",
+    "checkJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "@actions/*": [
+        "./actions/*"
+      ],
+      "@pages/*": [
+        "./page-objects/*"
+      ],
+      "@utils/*": [
+        "./utils/*"
+      ],
+      "@locators/*": [
+        "./locators/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
