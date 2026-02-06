@@ -1,0 +1,13 @@
+/node_modules/*
+
+.DS_Store
+
+# Dependencies
+package-lock.json
+
+# Reports
+reports/
+report.html
+test-results/
+
+

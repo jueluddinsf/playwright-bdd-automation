@@ -1,0 +1,8 @@
+{
+    "container": "#inventory_container",
+    "title": ".title",
+    "items": ".inventory_item",
+    "itemName": ".inventory_item_name",
+    "firstItemName": ".inventory_item_name >> nth=0",
+    "backButton": "#back-to-products"
+}
