@@ -1,0 +1,30 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Current Feature",
+            "type": "shell",
+            "command": "npx cucumber-js ${file}",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Run All Tests",
+            "type": "shell",
+            "command": "npm test",
+            "group": "test"
+        },
+        {
+            "label": "Run System Browser (Edge)",
+            "type": "shell",
+            "command": "BROWSER_CHANNEL=msedge npm test",
+            "group": "test"
+        }
+    ]
+}

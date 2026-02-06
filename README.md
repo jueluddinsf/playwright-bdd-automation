@@ -32,6 +32,24 @@ npx cucumber-js features/login.feature
 ### View Reports
 After execution, an HTML report is generated at `reports/report.html`.
 
+### Troubleshooting (Restricted Environments)
+
+If `npx playwright install` fails due to firewall/network issues, follow these steps:
+
+1. **Skip Download**: Set this environment variable to stop Playwright from downloading headers/browsers.
+   ```bash
+   export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+   ```
+
+2. **Use System Browser**: Tell Playwright to use the Chrome or Edge already installed on your laptop.
+   ```bash
+   # Use Microsoft Edge
+   BROWSER_CHANNEL=msedge npm test
+
+   # Use Google Chrome
+   BROWSER_CHANNEL=chrome npm test
+   ```
+
 ---
 
 ## Writing Tests (Codeless Workflow)
