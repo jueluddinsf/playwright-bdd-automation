@@ -1,28 +1,5 @@
-jobs:
-  test:
-    runs-on: [self-hosted, linux]
-
-    defaults:
-      run:
-        working-directory: playwright
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: AD/txp-ghac/.github/actions/setup-node@main
-        with:
-          node-version: 20
-          npmrc: ${{ secrets.NPMRC }}
-
-      - name: Verify Node
-        run: node -v
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install Playwright browsers
-        run: npx playwright install
-
-      - name: Run tests
-        run: npx playwright test
+- name: Check for browsers
+  run: |
+    which google-chrome && google-chrome --version || echo "google-chrome not found"
+    which chromium && chromium --version || echo "chromium not found"
+    which chromium-browser && chromium-browser --version || echo "chromium-browser not found"
