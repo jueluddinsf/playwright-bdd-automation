@@ -1,1 +1,22 @@
-33
+import { defineConfig } from '@playwright/test';
+
+console.log('✅ PLAYWRIGHT CONFIG LOADED');
+
+export default defineConfig({
+  testDir: './tests',   // adjust if your tests are elsewhere
+  reporter: 'html',
+
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        browserName: 'chromium',
+        executablePath: '/home/runner/_work/_tool/chrome-linux/chrome',
+        headless: true,
+        viewport: { width: 1280, height: 720 },
+        screenshot: 'on',
+        trace: 'on-first-retry',
+      },
+    },
+  ],
+});
