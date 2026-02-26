@@ -11,7 +11,8 @@ let browser;
 BeforeAll(async () => {
   browser = await chromium.launch({
     headless: false,
-    channel: process.env.BROWSER_CHANNEL // Support 'msedge', 'chrome' etc.
+    channel: process.env.BROWSER_CHANNEL, // Support 'msedge', 'chrome' etc.
+    args: ['--remote-debugging-port=9222']
   });
 });
 

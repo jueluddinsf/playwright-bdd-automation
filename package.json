@@ -16,10 +16,12 @@
     "@cucumber/cucumber": "*",
     "@cucumber/pretty-formatter": "*",
     "@playwright/test": "*",
-    "playwright": "*",
+    "cross-env": "*",
     "eslint": "*",
     "eslint-plugin-playwright": "*",
-    "prettier": "*",
-    "cross-env": "*"
+    "lighthouse": "^13.0.3",
+    "playwright": "*",
+    "playwright-lighthouse": "^4.0.0",
+    "prettier": "*"
   }
 }
