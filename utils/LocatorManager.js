@@ -51,7 +51,13 @@ class LocatorManager {
      * Files are loaded at startup — no hot-reload needed.
      */
     _loadLocators() {
-        const locatorsDir = path.join(__dirname, '../locators');
+        // IMPORTANT: Use process.cwd() — NOT __dirname.
+        // When this file lives inside node_modules (npm package), __dirname
+        // points into the package directory, NOT the consuming project.
+        // process.cwd() always resolves to wherever `npx cucumber-js` is run from.
+        const locatorsDir = process.env.LOCATORS_DIR
+            ? path.resolve(process.env.LOCATORS_DIR)
+            : path.join(process.cwd(), 'locators');
 
         if (!fs.existsSync(locatorsDir)) {
             console.warn(`[LocatorManager] Locators directory not found: ${locatorsDir}`);
@@ -74,12 +80,17 @@ class LocatorManager {
 
             try {
                 // Use require() — supports exports, comments, and functions
-                // Clear require cache in watch mode so changes are picked up
                 const filePath = path.join(locatorsDir, file);
                 delete require.cache[require.resolve(filePath)];
                 this.locators[pageName] = require(filePath);
             } catch (e) {
-                console.error(`[LocatorManager] Failed to load locator file "${file}": ${e.message}`);
+                // Throw hard — a broken locator file must never silently pass.
+                // Silent failures cause confusing 'key not found' errors in tests
+                // that are very hard to trace back to the real root cause.
+                throw new Error(
+                    `[LocatorManager] Failed to load "locators/${file}": ${e.message}\n` +
+                        `  Fix the syntax error in that file before running tests.`
+                );
             }
         });
     }
