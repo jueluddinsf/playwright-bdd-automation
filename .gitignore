@@ -12,8 +12,5 @@ test-results/
 
 # Stale
 lighthouse-reports/
-GOV_PROPOSAL.md
-TAX_DATA_PROPOSAL.md
-
 # Block accidental tgz commits at root — only lib/ should have the package
 /*.tgz
