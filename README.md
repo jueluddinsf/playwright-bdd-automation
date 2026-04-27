@@ -1,4 +1,4 @@
-# Automated Testing Framework
+# Codeless Playwright BDD Framework
 
 A robust, enterprise-grade codeless automation framework combining **Cucumber (Gherkin)** with **Playwright (JavaScript)** for reliable End-to-End (E2E), API, and regression testing. Tests are written in plain English using reusable steps from the locally packaged `playwright-bdd-steps` library.
 
@@ -13,7 +13,7 @@ The installed step library currently provides **222 reusable Gherkin steps** for
 ## Installation
 
 1. **Configure npm access**:
-   Update your `.npmrc` with the Nexus registry and API key before installing dependencies.
+   Update your user-level or project-level `.npmrc` with the Nexus registry and API key before installing dependencies.
    ```ini
    registry=<NEXUS_NPM_REGISTRY_URL>
    //TODO_NEXUS_HOST/repository/npm/:_authToken=<YOUR_NEXUS_API_KEY>
@@ -34,6 +34,12 @@ No `npx playwright install` step is required. The test hooks launch the installe
 ### Run All Tests
 ```bash
 npm test
+```
+
+For first-time setup, use a dry run before launching a browser:
+
+```bash
+npm run test:dry
 ```
 
 ### Run Against a Specific Environment
@@ -97,7 +103,20 @@ BROWSER_CHANNEL=chrome npm test
 
 This framework allows you to create valid automated tests without writing code. Follow this simple workflow.
 
-### Step 1: Add Locators
+### Step 1: Choose or Create a Feature File
+Use `features/tests/` for real tests. For example:
+
+```text
+features/tests/ui/login.feature
+```
+
+Start from the existing starter file if you are new:
+
+```text
+features/tests/ui/starter.feature
+```
+
+### Step 2: Add Locators
 Find the CSS selector for your element and add it to a page/domain file under `locators/`.
 
 **Example**: `locators/login.js`
@@ -110,7 +129,19 @@ module.exports = {
 };
 ```
 
-### Step 2: Write Feature
+Use locator keys in the format:
+
+```text
+"fileName.keyName"
+```
+
+For `locators/login.js`, the key `username` becomes:
+
+```text
+"login.username"
+```
+
+### Step 3: Write Feature
 Use the **Locator Key** (`page.element`) in your English steps.
 
 **Example**: `features/login.feature`
@@ -125,9 +156,22 @@ Feature: Login Scenarios
     Then I should see "inventory.title"
 ```
 
+### Step 4: Validate and Run
+Check that every English step is recognized:
+
+```bash
+npm run test:dry
+```
+
+Run only your new feature:
+
+```bash
+npx cucumber-js features/tests/ui/login.feature
+```
+
 For the full reusable step guide and catalog, see [docs/reusable-step-library-guide.md](docs/reusable-step-library-guide.md).
 
-### Step 3: Group Repeated Flows
+### Step 5: Group Repeated Flows
 When scenarios become long, group repeated reusable steps into one project-specific business step in `step-definitions/`.
 
 ```gherkin
@@ -165,6 +209,18 @@ Use these pre-built English phrases to control your tests.
 | **State** | `Then the element "submit" should be disabled` |
 | **API JSON Path** | `Then the response path "data.email" should be "user@example.com"` |
 | **File** | `Then file "reports/export.csv" should contain text "Order ID"` |
+
+---
+
+## Common First-Time Issues
+
+| Problem | What to Do |
+| :--- | :--- |
+| `npm install` fails with authentication errors | Confirm `.npmrc` has the Nexus registry and API key. |
+| `Undefined step` | Run `npm run test:dry` and compare your wording with the reusable step guide. |
+| `Key "x" not found` | Confirm the locator exists in `locators/<page>.js` and the feature uses `"page.key"`. |
+| Browser does not launch | Run `npm run test:edge` or `npm run test:chrome` based on the installed browser. |
+| Wrong environment opens | Check `TEST_ENV` or use `npm run test:sat`, `npm run test:stage`, or `npm run test:prod`. |
 
 ---
 

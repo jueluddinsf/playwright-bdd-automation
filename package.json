@@ -1,7 +1,7 @@
 {
-  "name": "playwright-cucumber-e2e-boilerplate",
+  "name": "codeless-playwright-bdd-framework",
   "version": "1.0.0",
-  "description": "Codeless Playwright + Cucumber BDD framework powered by playwright-bdd-steps",
+  "description": "Enterprise codeless Playwright + Cucumber BDD framework powered by reusable Gherkin steps",
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js",
