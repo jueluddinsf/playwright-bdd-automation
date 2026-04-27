@@ -6,6 +6,8 @@
     "*specs*/**/*.feature"
   ],
   "cucumber.glue": [
-    "step-definitions/**/*.js"
+    "node_modules/playwright-bdd-steps/src/steps/**/*.js",
+    "step-definitions/**/*.js",
+    "setup/hooks.js"
   ]
 }
