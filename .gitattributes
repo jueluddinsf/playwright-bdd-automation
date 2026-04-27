@@ -1,0 +1,21 @@
+# Normalize line endings to LF for all text files across all platforms.
+# This prevents Windows CRLF vs Unix LF conflicts that break Prettier and shell scripts.
+
+* text=auto eol=lf
+
+# Explicitly mark JS/JSON/feature files as text (LF enforced)
+*.js        text eol=lf
+*.json      text eol=lf
+*.feature   text eol=lf
+*.md        text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.ts        text eol=lf
+
+# Binary files — never touch line endings
+*.tgz       binary
+*.png       binary
+*.jpg       binary
+*.gif       binary
+*.pdf       binary
+*.html      binary

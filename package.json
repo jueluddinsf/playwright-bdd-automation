@@ -8,7 +8,7 @@
     "test:ui": "cucumber-js features/ui/**/*.feature",
     "test:api": "cucumber-js features/api/**/*.feature",
     "test:performance": "cucumber-js features/performance/**/*.feature",
-    "test:tag": "cucumber-js --tags",
+    "test:tag": "cross-env cucumber-js --tags ${TAG:-@smoke}",
     "test:smoke": "cucumber-js --tags @smoke",
     "test:regression": "cucumber-js --tags @regression",
     "test:headed": "cross-env HEADLESS=false cucumber-js",
