@@ -8,9 +8,27 @@ When('I click {string}', async function (key) {
     await clickActions.click(this.page, selector);
 });
 
+When('I click {string} {int} times', async function (key, count) {
+    const selector = LocatorManager.getSelector(key);
+    await clickActions.click(this.page, selector, { clickCount: count });
+});
+
 When('I double click {string}', async function (key) {
     const selector = LocatorManager.getSelector(key);
     await clickActions.doubleClick(this.page, selector);
+});
+
+When('I right click {string}', async function (key) {
+    const selector = LocatorManager.getSelector(key);
+    await clickActions.rightClick(this.page, selector);
+});
+
+When('I click {string} if present', async function (key) {
+    const selector = LocatorManager.getSelector(key);
+    const element = this.page.locator(selector).first();
+    if (await element.isVisible()) {
+        await clickActions.click(this.page, selector);
+    }
 });
 
 When('I click on text {string}', async function (text) {
@@ -27,14 +45,42 @@ When('I type {string} into {string}', async function (value, key) {
     await inputActions.type(this.page, selector, value);
 });
 
+When('I type {string} into {string} and press Enter', async function (value, key) {
+    const selector = LocatorManager.getSelector(key);
+    await inputActions.type(this.page, selector, value);
+    await inputActions.press(this.page, selector, 'Enter');
+});
+
 When('I clear {string}', async function (key) {
     const selector = LocatorManager.getSelector(key);
     await inputActions.clear(this.page, selector);
 });
 
+When('I clear {string} and type {string}', async function (key, text) {
+    const selector = LocatorManager.getSelector(key);
+    await inputActions.clear(this.page, selector);
+    await inputActions.type(this.page, selector, text);
+});
+
+When('I clear {string} and fill {string}', async function (key, text) {
+    const selector = LocatorManager.getSelector(key);
+    await inputActions.clear(this.page, selector);
+    await inputActions.fill(this.page, selector, text);
+});
+
 When('I select option {string} from {string}', async function (option, key) {
     const selector = LocatorManager.getSelector(key);
     await inputActions.selectOption(this.page, selector, option);
+});
+
+When('I select option by text {string} from {string}', async function (label, key) {
+    const selector = LocatorManager.getSelector(key);
+    await inputActions.selectOptionByLabel(this.page, selector, label);
+});
+
+When('I select option by index {int} from {string}', async function (index, key) {
+    const selector = LocatorManager.getSelector(key);
+    await inputActions.selectOptionByIndex(this.page, selector, index);
 });
 
 When('I check {string}', async function (key) {
@@ -55,6 +101,13 @@ When('I upload file {string} to {string}', async function (filePath, key) {
 When('I press {string} on {string}', async function (pressKey, key) {
     const selector = LocatorManager.getSelector(key);
     await inputActions.press(this.page, selector, pressKey);
+});
+
+When('I press {string} on {string} {int} times', async function (pressKey, key, count) {
+    const selector = LocatorManager.getSelector(key);
+    for (let i = 0; i < count; i++) {
+        await inputActions.press(this.page, selector, pressKey);
+    }
 });
 
 When('I hover over {string}', async function (key) {

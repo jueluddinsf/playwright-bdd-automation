@@ -19,16 +19,20 @@ When('I go back', async function () {
     await this.page.goBack();
 });
 
+When('I go forward', async function () {
+    await this.page.goForward();
+});
+
 When('I reload the page', async function () {
     await this.page.reload();
 });
 
 When('I accept the alert', async function () {
-    this.page.once('dialog', dialog => dialog.accept());
+    this.page.once('dialog', (dialog) => dialog.accept());
 });
 
 When('I dismiss the alert', async function () {
-    this.page.once('dialog', dialog => dialog.dismiss());
+    this.page.once('dialog', (dialog) => dialog.dismiss());
 });
 
 When('I take a screenshot', async function () {

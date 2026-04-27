@@ -10,7 +10,7 @@ class TestLoginPage extends BasePage {
             usernameInput: '#user-name',
             passwordInput: '#password',
             loginButton: '#login-button',
-            inventoryContainer: '#inventory_container'
+            inventoryContainer: '#inventory_container',
         };
     }
 

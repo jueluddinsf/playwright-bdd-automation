@@ -7,7 +7,8 @@
     "test": "cucumber-js",
     "test:edge": "cross-env BROWSER_CHANNEL=msedge cucumber-js",
     "test:chrome": "cross-env BROWSER_CHANNEL=chrome cucumber-js",
-    "lint": "eslint actions page-objects step-definitions setup"
+    "lint": "eslint actions page-objects step-definitions setup",
+    "format": "prettier --write \"**/*.js\""
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
   "devDependencies": {
     "@cucumber/cucumber": "*",
     "@cucumber/pretty-formatter": "*",
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "*",
     "cross-env": "*",
     "eslint": "*",

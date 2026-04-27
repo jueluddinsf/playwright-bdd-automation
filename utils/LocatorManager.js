@@ -11,7 +11,7 @@ class LocatorManager {
         const locatorsDir = path.join(__dirname, '../locators');
         if (fs.existsSync(locatorsDir)) {
             const files = fs.readdirSync(locatorsDir);
-            files.forEach(file => {
+            files.forEach((file) => {
                 if (path.extname(file) === '.json') {
                     const name = path.basename(file, '.json');
                     if (this.locators[name]) {
@@ -31,7 +31,7 @@ class LocatorManager {
     getSelector(key) {
         // 1. Guard against common selector types that might contain dots but aren't page lookups
         const rawPrefixes = ['text=', 'xpath=', 'css=', '#', '//', 'button=', 'role='];
-        if (rawPrefixes.some(prefix => key.startsWith(prefix))) {
+        if (rawPrefixes.some((prefix) => key.startsWith(prefix))) {
             return key;
         }
 

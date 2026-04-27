@@ -1,10 +1,14 @@
 class ClickActions {
-    async click(page, selector) {
-        await page.locator(selector).click();
+    async click(page, selector, options = {}) {
+        await page.locator(selector).click(options);
     }
 
     async doubleClick(page, selector) {
         await page.locator(selector).dblclick();
+    }
+
+    async rightClick(page, selector) {
+        await page.locator(selector).click({ button: 'right' });
     }
 
     async hover(page, selector) {

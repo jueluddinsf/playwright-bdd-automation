@@ -9,31 +9,31 @@ expect.configure({ timeout: 15000 });
 let browser;
 
 BeforeAll(async () => {
-  browser = await chromium.launch({
-    headless: false,
-    channel: process.env.BROWSER_CHANNEL, // Support 'msedge', 'chrome' etc.
-    args: ['--remote-debugging-port=9222']
-  });
+    browser = await chromium.launch({
+        headless: false,
+        channel: process.env.BROWSER_CHANNEL, // Support 'msedge', 'chrome' etc.
+        args: ['--remote-debugging-port=9222'],
+    });
 });
 
 AfterAll(async () => {
-  await browser.close();
+    await browser.close();
 });
 
 Before(async function () {
-  this.context = await browser.newContext();
-  this.page = await this.context.newPage();
+    this.context = await browser.newContext();
+    this.page = await this.context.newPage();
 
-  // Increase timeouts for slower government environments
-  this.page.setDefaultNavigationTimeout(30000); // 30s for page loads
-  this.page.setDefaultTimeout(15000); // 15s for element actions/assertions
+    // Increase timeouts for slower government environments
+    this.page.setDefaultNavigationTimeout(30000); // 30s for page loads
+    this.page.setDefaultTimeout(15000); // 15s for element actions/assertions
 });
 
 After(async function (scenario) {
-  if (scenario.result.status === Status.FAILED) {
-    const buffer = await this.page.screenshot({ fullPage: true });
-    this.attach(buffer, 'image/png');
-  }
-  await this.page.close();
-  await this.context.close();
+    if (scenario.result.status === Status.FAILED) {
+        const buffer = await this.page.screenshot({ fullPage: true });
+        this.attach(buffer, 'image/png');
+    }
+    await this.page.close();
+    await this.context.close();
 });

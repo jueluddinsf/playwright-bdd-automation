@@ -8,8 +8,16 @@ class InputActions {
     }
 
     async selectOption(page, selector, value) {
-        // Supports selecting by value or label
+        // Supports selecting by value or label based on how the DOM is rendered
         await page.locator(selector).selectOption(value);
+    }
+
+    async selectOptionByLabel(page, selector, label) {
+        await page.locator(selector).selectOption({ label });
+    }
+
+    async selectOptionByIndex(page, selector, index) {
+        await page.locator(selector).selectOption({ index });
     }
 
     async check(page, selector) {
