@@ -9,5 +9,13 @@
     "node_modules/playwright-bdd-steps/src/steps/**/*.js",
     "step-definitions/**/*.js",
     "setup/hooks.js"
-  ]
+  ],
+
+  // ── Read-only enforcement ──────────────────────────────────────────────────
+  // Locks all node_modules files in VS Code — users see a lock icon and cannot save.
+  // Changes to node_modules are lost on `npm install` and cannot be committed.
+  "files.readonlyInclude": {
+    "**/node_modules/**": true
+  },
+  "files.readonlyMessage": "⛔ This file is part of a managed package (playwright-bdd-steps).\nEdits here are lost on 'npm install' and cannot be committed.\nRaise a request with the QA Platform team to update the package."
 }
