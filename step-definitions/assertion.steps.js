@@ -217,3 +217,40 @@ Then('the element {string} should have tabindex {string}', async function (key, 
     const selector = LocatorManager.getSelector(key);
     await expect(this.page.locator(selector)).toHaveAttribute('tabindex', tabindex);
 });
+
+// ─── IFrame Assertions ─────────────────────────────────────────────────────
+
+Then('the element {string} inside frame {string} should be visible', async function (elementKey, frameKey) {
+    const frameSelector = LocatorManager.getSelector(frameKey);
+    const elementSelector = LocatorManager.getSelector(elementKey);
+    await expect(this.page.frameLocator(frameSelector).locator(elementSelector)).toBeVisible();
+});
+
+Then(
+    'the element {string} inside frame {string} should have text {string}',
+    async function (elementKey, frameKey, text) {
+        const frameSelector = LocatorManager.getSelector(frameKey);
+        const elementSelector = LocatorManager.getSelector(elementKey);
+        await expect(this.page.frameLocator(frameSelector).locator(elementSelector)).toHaveText(text);
+    }
+);
+
+Then(
+    'the element {string} inside frame {string} should contain text {string}',
+    async function (elementKey, frameKey, text) {
+        const frameSelector = LocatorManager.getSelector(frameKey);
+        const elementSelector = LocatorManager.getSelector(elementKey);
+        await expect(this.page.frameLocator(frameSelector).locator(elementSelector)).toContainText(text);
+    }
+);
+
+// ─── Visual Regression ─────────────────────────────────────────────────────
+
+Then('the page screenshot should match {string}', async function (snapshotName) {
+    await expect(this.page).toHaveScreenshot(snapshotName);
+});
+
+Then('the element {string} screenshot should match {string}', async function (key, snapshotName) {
+    const selector = LocatorManager.getSelector(key);
+    await expect(this.page.locator(selector)).toHaveScreenshot(snapshotName);
+});

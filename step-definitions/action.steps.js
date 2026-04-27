@@ -252,3 +252,71 @@ When('I press Enter on {string}', async function (key) {
     const selector = LocatorManager.getSelector(key);
     await this.page.locator(selector).press('Enter');
 });
+
+// ─── Additional Keyboard & Mouse Steps ────────────────────────────────────────
+
+/**
+ * Hold a key down (use with release key step for Shift-click, etc.).
+ * @example When I hold down key "Shift"
+ */
+When('I hold down key {string}', async function (key) {
+    await this.page.keyboard.down(key);
+});
+
+/**
+ * Release a previously held key.
+ * @example When I release key "Shift"
+ */
+When('I release key {string}', async function (key) {
+    await this.page.keyboard.up(key);
+});
+
+/**
+ * Move the mouse cursor to absolute page coordinates.
+ * @example When I move mouse to coordinates 200, 400
+ */
+When('I move mouse to coordinates {int}, {int}', async function (x, y) {
+    await this.page.mouse.move(x, y);
+});
+
+/**
+ * Blur (unfocus) an element — triggers onBlur/onChange validation events.
+ * @example When I blur "EmailField"
+ */
+When('I blur {string}', async function (key) {
+    const selector = LocatorManager.getSelector(key);
+    await this.page.locator(selector).blur();
+});
+
+/**
+ * Submit a form by clicking its submit button programmatically.
+ * @example When I submit the form "LoginForm"
+ */
+When('I submit the form {string}', async function (key) {
+    const selector = LocatorManager.getSelector(key);
+    await this.page.locator(selector).evaluate((el) => {
+        const form = el.closest('form') || el.querySelector('form');
+        if (form) form.submit();
+        else throw new Error('No form found for selector');
+    });
+});
+
+/**
+ * Wait for a number of milliseconds (fine-grained timing control).
+ * @example When I wait for 500 milliseconds
+ */
+When('I wait for {int} milliseconds', async function (ms) {
+    // eslint-disable-next-line playwright/no-wait-for-timeout
+    await this.page.waitForTimeout(ms);
+});
+
+/**
+ * Fill a field inside an iframe.
+ * @example When I fill "SearchInput" inside frame "SearchFrame" with "hello"
+ */
+When('I fill {string} inside frame {string} with {string}', async function (elementKey, frameKey, value) {
+    const frameSelector = LocatorManager.getSelector(frameKey);
+    const elementSelector = LocatorManager.getSelector(elementKey);
+    const frame = this.page.frameLocator(frameSelector);
+    await frame.locator(elementSelector).fill(value);
+});
