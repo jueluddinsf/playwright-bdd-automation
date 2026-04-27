@@ -7,7 +7,7 @@
     "test": "cucumber-js",
     "test:edge": "cross-env BROWSER_CHANNEL=msedge cucumber-js",
     "test:chrome": "cross-env BROWSER_CHANNEL=chrome cucumber-js",
-    "lint": "eslint actions page-objects step-definitions setup",
+    "lint": "eslint page-objects step-definitions setup",
     "format": "prettier --write \"**/*.js\""
   },
   "keywords": [],
