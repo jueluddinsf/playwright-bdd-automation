@@ -130,3 +130,33 @@ When('I focus on {string}', async function (key) {
     const selector = LocatorManager.getSelector(key);
     await inputActions.focus(this.page, selector);
 });
+
+When('I force click {string}', async function (key) {
+    const selector = LocatorManager.getSelector(key);
+    await clickActions.click(this.page, selector, { force: true });
+});
+
+When('I click coordinates {int}, {int} in {string}', async function (x, y, key) {
+    const selector = LocatorManager.getSelector(key);
+    await clickActions.click(this.page, selector, { position: { x, y } });
+});
+
+When('I scroll to the top of the page', async function () {
+    await this.page.evaluate(() => window.scrollTo(0, 0));
+});
+
+When('I scroll to the bottom of the page', async function () {
+    await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+});
+
+When('I scroll by {int} pixels vertically and {int} pixels horizontally', async function (y, x) {
+    await this.page.mouse.wheel(x, y);
+});
+
+When('I save the downloaded file from {string} as {string}', async function (key, path) {
+    const selector = LocatorManager.getSelector(key);
+    const downloadPromise = this.page.waitForEvent('download');
+    await clickActions.click(this.page, selector);
+    const download = await downloadPromise;
+    await download.saveAs(path);
+});

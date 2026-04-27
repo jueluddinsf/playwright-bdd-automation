@@ -14,6 +14,8 @@ module.exports = [
                 module: 'readonly',
                 __dirname: 'readonly',
                 console: 'readonly',
+                window: 'readonly',
+                document: 'readonly',
             },
         },
         rules: {
@@ -24,6 +26,7 @@ module.exports = [
             'playwright/no-wait-for-timeout': 'warn',
             'playwright/no-standalone-expect': 'off',
             'playwright/prefer-web-first-assertions': 'off',
+            'playwright/no-force-option': 'off',
             'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
         },
     },

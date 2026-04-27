@@ -126,3 +126,18 @@ Then('I should see text {string}', async function (text) {
 Then('I should not see text {string}', async function (text) {
     await expect(this.page.locator('body')).not.toContainText(text);
 });
+
+Then('the element {string} should be in the viewport', async function (key) {
+    const selector = LocatorManager.getSelector(key);
+    await expect(this.page.locator(selector)).toBeInViewport();
+});
+
+Then('the element {string} should not be in the viewport', async function (key) {
+    const selector = LocatorManager.getSelector(key);
+    await expect(this.page.locator(selector)).not.toBeInViewport();
+});
+
+Then('the element {string} css property {string} should be {string}', async function (key, property, value) {
+    const selector = LocatorManager.getSelector(key);
+    await expect(this.page.locator(selector)).toHaveCSS(property, value);
+});
