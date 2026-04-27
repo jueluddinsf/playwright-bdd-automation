@@ -1,9 +1,6 @@
 {
   "cucumber.features": [
-    "features/**/*.feature",
-    "features/ui/**/*.feature",
-    "features/api/**/*.feature",
-    "features/performance/**/*.feature"
+    "features/**/*.feature"
   ],
   "cucumber.glue": [
     "node_modules/playwright-bdd-steps/src/steps/**/*.js",
