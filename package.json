@@ -1,12 +1,20 @@
 {
   "name": "playwright-cucumber-e2e-boilerplate",
   "version": "1.0.0",
-  "description": "Sanitized and Modernized Playwright Cucumber Framework",
+  "description": "Codeless Playwright + Cucumber BDD framework powered by playwright-bdd-steps",
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js",
+    "test:ui": "cucumber-js features/ui/**/*.feature",
+    "test:api": "cucumber-js features/api/**/*.feature",
+    "test:performance": "cucumber-js features/performance/**/*.feature",
+    "test:tag": "cucumber-js --tags",
+    "test:smoke": "cucumber-js --tags @smoke",
+    "test:regression": "cucumber-js --tags @regression",
+    "test:headed": "cross-env HEADLESS=false cucumber-js",
     "test:edge": "cross-env BROWSER_CHANNEL=msedge cucumber-js",
     "test:chrome": "cross-env BROWSER_CHANNEL=chrome cucumber-js",
+    "test:dry": "cucumber-js --dry-run",
     "lint": "eslint page-objects step-definitions setup",
     "format": "prettier --write \"**/*.js\""
   },
@@ -28,6 +36,6 @@
     "prettier": "*"
   },
   "dependencies": {
-    "playwright-bdd-steps": "file:lib/playwright-bdd-steps-1.0.0.tgz"
+    "playwright-bdd-steps": "file:lib/playwright-bdd-steps-1.0.1.tgz"
   }
 }

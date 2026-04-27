@@ -2,29 +2,67 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run Current Feature",
-            "type": "shell",
-            "command": "npx cucumber-js ${file}",
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            }
-        },
-        {
-            "label": "Run All Tests",
+            "label": "Test: Run All",
             "type": "shell",
             "command": "npm test",
-            "group": "test"
+            "group": { "kind": "test", "isDefault": true },
+            "presentation": { "reveal": "always", "panel": "shared" }
         },
         {
-            "label": "Run System Browser (Edge)",
+            "label": "Test: Current Feature File",
             "type": "shell",
-            "command": "BROWSER_CHANNEL=msedge npm test",
-            "group": "test"
+            "command": "npx cucumber-js ${file}",
+            "group": "test",
+            "presentation": { "reveal": "always", "panel": "new" }
+        },
+        {
+            "label": "Test: UI Only",
+            "type": "shell",
+            "command": "npm run test:ui",
+            "group": "test",
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "Test: API Only",
+            "type": "shell",
+            "command": "npm run test:api",
+            "group": "test",
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "Test: @smoke Tag",
+            "type": "shell",
+            "command": "npm run test:smoke",
+            "group": "test",
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "Test: @regression Tag",
+            "type": "shell",
+            "command": "npm run test:regression",
+            "group": "test",
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "Test: Headed Browser",
+            "type": "shell",
+            "command": "npm run test:headed",
+            "group": "test",
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "Test: Dry Run (validate steps)",
+            "type": "shell",
+            "command": "npm run test:dry",
+            "group": "test",
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "Lint",
+            "type": "shell",
+            "command": "npm run lint",
+            "group": "build",
+            "presentation": { "reveal": "always", "panel": "shared" }
         }
     ]
 }

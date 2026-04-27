@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Current Feature",
+            "name": "Debug: Current Feature File",
             "type": "node",
             "request": "launch",
             "program": "${workspaceFolder}/node_modules/.bin/cucumber-js",
@@ -12,12 +12,20 @@
                 "not @ignore"
             ],
             "console": "integratedTerminal",
-            "skipFiles": [
-                "<node_internals>/**"
+            "skipFiles": ["<node_internals>/**"]
+        },
+        {
+            "name": "Debug: Run @smoke Tag",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/.bin/cucumber-js",
+            "args": [
+                "features/**/*.feature",
+                "--tags",
+                "@smoke"
             ],
-            "env": {
-                "BROWSER_CHANNEL": "msedge"
-            }
+            "console": "integratedTerminal",
+            "skipFiles": ["<node_internals>/**"]
         }
     ]
 }
