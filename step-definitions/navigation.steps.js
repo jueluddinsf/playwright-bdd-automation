@@ -12,8 +12,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-const { Given, Then, When } = require('@cucumber/cucumber');
-const { expect } = require('@playwright/test');
+const { Given, When } = require('@cucumber/cucumber');
 const env = require('../config/env');
 
 // Navigate to a full URL or a known environment key (e.g. "BASE_URL", "LOGIN").
