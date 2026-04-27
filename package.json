@@ -26,5 +26,8 @@
     "playwright": "*",
     "playwright-lighthouse": "^4.0.0",
     "prettier": "*"
+  },
+  "dependencies": {
+    "playwright-bdd-steps": "file:packages/playwright-bdd-steps/playwright-bdd-steps-1.0.0.tgz"
   }
 }
