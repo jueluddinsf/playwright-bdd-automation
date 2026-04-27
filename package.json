@@ -5,6 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js",
+    "test:local": "cross-env TEST_ENV=local cucumber-js",
+    "test:sat": "cross-env TEST_ENV=sat cucumber-js",
+    "test:stage": "cross-env TEST_ENV=stage cucumber-js",
+    "test:prod": "cross-env TEST_ENV=prod cucumber-js",
     "test:ui": "cucumber-js features/ui/**/*.feature",
     "test:api": "cucumber-js features/api/**/*.feature",
     "test:performance": "cucumber-js features/performance/**/*.feature",
@@ -36,6 +40,6 @@
     "prettier": "*"
   },
   "dependencies": {
-    "playwright-bdd-steps": "file:lib/playwright-bdd-steps-1.0.1.tgz"
+    "playwright-bdd-steps": "file:lib/playwright-bdd-steps-1.0.2.tgz"
   }
 }

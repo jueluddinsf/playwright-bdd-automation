@@ -1,5 +1,6 @@
 const { Before, After, BeforeAll, AfterAll, Status, setDefaultTimeout } = require('@cucumber/cucumber');
 const { chromium, expect } = require('@playwright/test');
+const env = require('../config/env');
 
 setDefaultTimeout(60000);
 
@@ -9,6 +10,8 @@ expect.configure({ timeout: 15000 });
 let browser;
 
 BeforeAll(async () => {
+    process.env.BASE_URL = env.BASE_URL;
+
     browser = await chromium.launch({
         headless: false,
         channel: process.env.BROWSER_CHANNEL, // Support 'msedge', 'chrome' etc.

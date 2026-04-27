@@ -24,6 +24,16 @@ A robust, enterprise-grade generic automation framework combining **Cucumber (Gh
 npm test
 ```
 
+### Run Against a Specific Environment
+```bash
+npm run test:local
+npm run test:sat
+npm run test:stage
+npm run test:prod
+```
+
+The active environment is selected by `TEST_ENV` and configured in `config/env.js`.
+
 ### Run Specific Feature
 ```bash
 npx cucumber-js features/login.feature
@@ -57,15 +67,15 @@ If `npx playwright install` fails due to firewall/network issues, follow these s
 This framework allows you to create valid automated tests without writing code. Follow this simple 2-step process.
 
 ### Step 1: Add Locators
-Find the CSS selector for your element and add it to `locators/<page>.json`.
+Find the CSS selector for your element and add it to `locators/<page>.js`.
 
-**Example**: `locators/login.json`
-```json
-{
-  "username": "#user-name",
-  "submit": "#login-button",
-  "errorMessage": "[data-test='error']"
-}
+**Example**: `locators/login.js`
+```js
+module.exports = {
+  username: '#user-name',
+  loginButton: '#login-button',
+  errorMessage: "[data-test='error']",
+};
 ```
 
 ### Step 2: Write Feature
@@ -78,9 +88,11 @@ Feature: Login Scenarios
   Scenario: Valid Login
     Given I navigate to "BASE_URL"
     When I fill "login.username" with "standard_user"
-    And I click "login.submit"
+    And I click "login.loginButton"
     Then I should see "inventory.title"
 ```
+
+For the full reusable step guide and catalog, see [docs/reusable-step-library-guide.md](docs/reusable-step-library-guide.md).
 
 ---
 
