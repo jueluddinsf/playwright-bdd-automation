@@ -12,15 +12,36 @@ let browser;
 BeforeAll(async () => {
     process.env.BASE_URL = env.BASE_URL;
 
-    browser = await chromium.launch({
-        headless: false,
-        channel: process.env.BROWSER_CHANNEL, // Support 'msedge', 'chrome' etc.
-        args: ['--remote-debugging-port=9222'],
-    });
+    const headless = String(process.env.HEADLESS || 'false').toLowerCase() === 'true';
+    const requestedChannel = process.env.BROWSER_CHANNEL;
+    const channels = requestedChannel ? [requestedChannel] : ['msedge', 'chrome'];
+    let lastError;
+
+    for (const channel of channels) {
+        try {
+            browser = await chromium.launch({
+                headless,
+                channel,
+                args: ['--remote-debugging-port=9222'],
+            });
+            process.env.BROWSER_CHANNEL = channel;
+            return;
+        } catch (error) {
+            lastError = error;
+        }
+    }
+
+    throw new Error(
+        `Unable to launch installed browser channel(s): ${channels.join(', ')}. ` +
+            'Install Chrome or Microsoft Edge, or set BROWSER_CHANNEL to an installed Playwright channel. ' +
+            `Original error: ${lastError.message}`
+    );
 });
 
 AfterAll(async () => {
-    await browser.close();
+    if (browser) {
+        await browser.close();
+    }
 });
 
 Before(async function () {

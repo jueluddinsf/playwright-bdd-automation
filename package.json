@@ -9,13 +9,15 @@
     "test:sat": "cross-env TEST_ENV=sat cucumber-js",
     "test:stage": "cross-env TEST_ENV=stage cucumber-js",
     "test:prod": "cross-env TEST_ENV=prod cucumber-js",
-    "test:ui": "cucumber-js features/ui/**/*.feature",
-    "test:api": "cucumber-js features/api/**/*.feature",
-    "test:performance": "cucumber-js features/performance/**/*.feature",
+    "test:ui": "cucumber-js features/tests/ui/**/*.feature features/examples/ui/**/*.feature",
+    "test:api": "cucumber-js features/tests/api/**/*.feature features/examples/api/**/*.feature",
+    "test:e2e": "cucumber-js features/tests/e2e/**/*.feature",
+    "test:performance": "cucumber-js features/examples/performance/**/*.feature",
     "test:tag": "cross-env cucumber-js --tags ${TAG:-@smoke}",
     "test:smoke": "cucumber-js --tags @smoke",
     "test:regression": "cucumber-js --tags @regression",
     "test:headed": "cross-env HEADLESS=false cucumber-js",
+    "test:headless": "cross-env HEADLESS=true cucumber-js",
     "test:edge": "cross-env BROWSER_CHANNEL=msedge cucumber-js",
     "test:chrome": "cross-env BROWSER_CHANNEL=chrome cucumber-js",
     "test:dry": "cucumber-js --dry-run",
@@ -40,6 +42,6 @@
     "prettier": "*"
   },
   "dependencies": {
-    "playwright-bdd-steps": "file:lib/playwright-bdd-steps-1.0.2.tgz"
+    "playwright-bdd-steps": "file:lib/playwright-bdd-steps-1.0.3.tgz"
   }
 }

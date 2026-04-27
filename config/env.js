@@ -78,10 +78,12 @@ if (!activeConfig) {
     );
 }
 
-process.env.BASE_URL = process.env.BASE_URL || activeConfig.BASE_URL;
+const BASE_URL = process.env.BASE_URL || activeConfig.BASE_URL;
+process.env.BASE_URL = BASE_URL;
 
 module.exports = {
     ACTIVE_ENV,
     ENVIRONMENTS,
     ...activeConfig,
+    BASE_URL,
 };

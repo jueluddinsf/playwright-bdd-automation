@@ -1,43 +1,28 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Playwright-CI
+name: Codeless BDD CI
 
 on:
   push:
-    branches:
-    - main
+    branches: [main]
+  pull_request:
 
 jobs:
-  e2e-tests:
-    runs-on: ubuntu-latest # or macos-latest, windows-latest
+  validate:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      
+        uses: actions/checkout@v4
+
       - name: Setup Node
-        uses: actions/setup-node@v1
-      
-      - name: Use Playwright github action
-        uses: microsoft/playwright-github-action@v1
-
-      - name: run a shell
-        run: |
-         echo " which dir"
-         ls -a
-         pwd
-
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
 
-      - name: run a shell
-        run: |
-         echo " which dir"
-         ls -a
-         pwd
+      - name: Lint
+        run: npm run lint
 
-         
-      - name: Run Tests
-        run: npm test
+      - name: Validate Cucumber steps
+        run: npm run test:dry

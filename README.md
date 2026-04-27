@@ -70,6 +70,14 @@ npm run test:smoke
 npm run test:regression
 ```
 
+### Run by Test Type
+```bash
+npm run test:ui
+npm run test:api
+npm run test:e2e
+npm run test:performance
+```
+
 ### Validate Step Matching Without Running Browser Actions
 ```bash
 npm run test:dry
@@ -95,6 +103,13 @@ You can also set the channel directly:
 ```bash
 BROWSER_CHANNEL=msedge npm test
 BROWSER_CHANNEL=chrome npm test
+```
+
+Run headed or headless:
+
+```bash
+npm run test:headed
+npm run test:headless
 ```
 
 ---
@@ -171,14 +186,64 @@ npx cucumber-js features/tests/ui/login.feature
 
 For the full reusable step guide and catalog, see [docs/reusable-step-library-guide.md](docs/reusable-step-library-guide.md).
 
-### Step 5: Group Repeated Flows
-When scenarios become long, group repeated reusable steps into one project-specific business step in `step-definitions/`.
+### Step 5: Create Composite Step Definitions
+When scenarios become long, group repeated reusable steps into one project-specific step definition in `step-definitions/`. These are also called composite or business-flow steps.
+
+Important: Cucumber JS does not provide a supported public API to run one Gherkin step from inside another Gherkin step. Instead of calling step text inside step text, put the shared behavior in helper code and call that helper from your composite step.
+
+**Before composing**, the feature repeats every low-level reusable step:
+
+```gherkin
+Scenario: Products are visible after login
+  Given I navigate to "BASE_URL"
+  When I fill "login.username" with config value "CREDENTIALS.VALID.USERNAME"
+  And I fill "login.password" with config value "CREDENTIALS.VALID.PASSWORD"
+  And I click "login.loginButton"
+  Then I should see "inventory.title"
+```
+
+**After composing**, the feature uses one readable business step:
 
 ```gherkin
 Scenario: Products are visible after login
   Given I am logged in as a standard user
   Then I should see "inventory.title"
 ```
+
+Do not do this:
+
+```js
+Given('I am logged in as a standard user', async function () {
+  // Unsupported pattern: do not try to call Gherkin step text from here.
+  await this.runStep('Given I navigate to "BASE_URL"');
+  await this.runStep('When I fill "login.username" with config value "CREDENTIALS.VALID.USERNAME"');
+  await this.runStep('When I fill "login.password" with config value "CREDENTIALS.VALID.PASSWORD"');
+  await this.runStep('When I click "login.loginButton"');
+});
+```
+
+Do this instead.
+
+**Composite step definition example**: `step-definitions/login-flow.steps.js`
+
+```js
+const { Given } = require('@cucumber/cucumber');
+const LocatorManager = require('playwright-bdd-steps/src/utils/LocatorManager');
+const inputActions = require('playwright-bdd-steps/src/actions/InputActions');
+const clickActions = require('playwright-bdd-steps/src/actions/ClickActions');
+const env = require('../config/env');
+
+Given('I am logged in as a standard user', async function () {
+  await this.page.goto(env.BASE_URL);
+  await inputActions.fill(this.page, LocatorManager.getSelector('login.username'), env.CREDENTIALS.VALID.USERNAME);
+  await inputActions.fill(this.page, LocatorManager.getSelector('login.password'), env.CREDENTIALS.VALID.PASSWORD);
+  await clickActions.click(this.page, LocatorManager.getSelector('login.loginButton'));
+});
+```
+
+That single step composes the navigation, username fill, password fill, and login click inside one reusable business action.
+
+Reuse `LocatorManager`, action helpers, flow helper functions, and Playwright assertions directly.
 
 ---
 

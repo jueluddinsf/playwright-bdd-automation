@@ -24,7 +24,7 @@ The goal is simple:
 - [Saved Values and Test Data](#saved-values-and-test-data)
 - [Browser, Device, Network, and Auth Helpers](#browser-device-network-and-auth-helpers)
 - [How to Discover Available Steps](#how-to-discover-available-steps)
-- [Group Reusable Steps Into Business Steps](#group-reusable-steps-into-business-steps)
+- [Composite Step Definitions](#composite-step-definitions)
 - [When to Add Custom Step Definitions](#when-to-add-custom-step-definitions)
 - [Best Practices](#best-practices)
 - [Quick Troubleshooting](#quick-troubleshooting)
@@ -34,7 +34,7 @@ The goal is simple:
 The shared package is installed from:
 
 ```json
-"playwright-bdd-steps": "file:lib/playwright-bdd-steps-1.0.2.tgz"
+"playwright-bdd-steps": "file:lib/playwright-bdd-steps-1.0.3.tgz"
 ```
 
 Cucumber loads those reusable steps automatically from `cucumber.js`:
@@ -667,9 +667,18 @@ rg -n "download|iframe|cookie|response|screenshot" node_modules/playwright-bdd-s
 
 Use the package source as the step reference, but do not edit it directly.
 
-## Group Reusable Steps Into Business Steps
+## Composite Step Definitions
 
-Reusable steps are excellent for small actions, but long scenarios become hard to read when every click and fill is listed every time. When the same sequence appears in multiple scenarios, group it into a project-specific business step.
+Reusable steps are excellent for small actions, but long scenarios become hard to read when every click and fill is listed every time. When the same sequence appears in multiple scenarios, group it into a project-specific composite or business-flow step.
+
+Important: Cucumber JS does not provide a supported public API to run one Gherkin step from inside another Gherkin step. Instead of calling step text inside step text, put the shared behavior in helper code and call that helper from your composite step.
+
+In this framework, a composite step means:
+
+- The feature file uses one readable business step.
+- The step definition internally performs several low-level actions.
+- The implementation reuses `LocatorManager`, packaged action helpers, flow helper functions, and Playwright assertions.
+- The implementation does not call Gherkin step text from inside another step definition.
 
 Before grouping:
 
@@ -683,7 +692,7 @@ Scenario: View products after login
   And the element "inventory.title" should have exact text "Products"
 ```
 
-After grouping:
+After composing the repeated low-level steps:
 
 ```gherkin
 Scenario: View products after login
@@ -691,9 +700,48 @@ Scenario: View products after login
   Then I should see the products page
 ```
 
-### Where Grouped Steps Go
+Do not do this:
 
-Create grouped steps in `step-definitions/`, not inside the packaged reusable library.
+```js
+Given('I am logged in as a standard user', async function () {
+    // Unsupported pattern: do not try to call Gherkin step text from here.
+    await this.runStep('Given I navigate to "BASE_URL"');
+    await this.runStep('When I fill "login.username" with config value "CREDENTIALS.VALID.USERNAME"');
+    await this.runStep('When I fill "login.password" with config value "CREDENTIALS.VALID.PASSWORD"');
+    await this.runStep('When I click "login.loginButton"');
+});
+```
+
+Do this instead. The composite step definition performs the repeated work behind the scenes:
+
+```js
+const { Given } = require('@cucumber/cucumber');
+const LocatorManager = require('playwright-bdd-steps/src/utils/LocatorManager');
+const inputActions = require('playwright-bdd-steps/src/actions/InputActions');
+const clickActions = require('playwright-bdd-steps/src/actions/ClickActions');
+const env = require('../config/env');
+
+Given('I am logged in as a standard user', async function () {
+    await this.page.goto(env.BASE_URL);
+    await inputActions.fill(
+        this.page,
+        LocatorManager.getSelector('login.username'),
+        env.CREDENTIALS.VALID.USERNAME
+    );
+    await inputActions.fill(
+        this.page,
+        LocatorManager.getSelector('login.password'),
+        env.CREDENTIALS.VALID.PASSWORD
+    );
+    await clickActions.click(this.page, LocatorManager.getSelector('login.loginButton'));
+});
+```
+
+This one business step composes four lower-level actions: navigate, fill username, fill password, and click login.
+
+### Where Composite Steps Go
+
+Create composite steps in `step-definitions/`, not inside the packaged reusable library.
 
 Example: `step-definitions/business-flow.steps.js`
 
@@ -728,7 +776,7 @@ Then('I should see the products page', async function () {
 
 This keeps the feature file short while still using the same locator keys and reusable action helpers as the packaged steps.
 
-### Parameterized Business Steps
+### Parameterized Composite Steps
 
 Use parameters when the flow is reusable with different data.
 
@@ -784,9 +832,9 @@ Given('I am logged in as a standard user', async function () {
 });
 ```
 
-### When to Group Steps
+### When to Create Composite Steps
 
-Good candidates for grouped steps:
+Good candidates for composite steps:
 
 - Login, logout, and user setup.
 - Add item to cart, checkout, submit order.
@@ -794,16 +842,16 @@ Good candidates for grouped steps:
 - API setup followed by UI verification.
 - Any 4 or more low-level steps repeated across scenarios.
 
-Avoid grouping when:
+Avoid composing when:
 
 - The scenario is clearer with the explicit low-level steps.
 - The flow is used only once and is still changing often.
-- The grouped step hides the actual business behavior being tested.
-- The grouped step becomes too broad, such as `When I complete the entire test`.
+- The composite step hides the actual business behavior being tested.
+- The composite step becomes too broad, such as `When I complete the entire test`.
 
-### Naming Grouped Steps
+### Naming Composite Steps
 
-Name grouped steps in business language:
+Name composite steps in business language:
 
 | Prefer | Avoid |
 | --- | --- |
