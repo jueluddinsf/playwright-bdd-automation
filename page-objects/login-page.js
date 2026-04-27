@@ -1,6 +1,6 @@
 const BasePage = require('./BasePage');
-const inputActions = require('../actions/InputActions');
-const clickActions = require('../actions/ClickActions');
+const inputActions = require('playwright-bdd-steps/src/actions/InputActions');
+const clickActions = require('playwright-bdd-steps/src/actions/ClickActions');
 const { expect } = require('@playwright/test');
 
 class LoginPage extends BasePage {

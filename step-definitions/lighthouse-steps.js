@@ -21,7 +21,7 @@ Then(
                     html: true, // Creates an HTML report
                 },
                 name: `lighthouse-${Date.now()}`,
-                directory: `${process.cwd()}/lighthouse-reports`,
+                directory: `${process.cwd()}/reports/lighthouse`,
             },
         });
     }
