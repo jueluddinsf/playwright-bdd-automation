@@ -76,3 +76,21 @@ When('I set {string} local storage value to {string}', async function (key, valu
 When('I set window size to {int} by {int}', async function (width, height) {
     await this.page.setViewportSize({ width, height });
 });
+
+// Read storage values back into memory
+When('I get the {string} local storage value', async function (key) {
+    this.storedValue = await this.page.evaluate((k) => window.localStorage.getItem(k), key);
+});
+
+When('I get the {string} cookie value', async function (name) {
+    const cookies = await this.context.cookies();
+    const cookie = cookies.find((c) => c.name === name);
+    this.storedValue = cookie ? cookie.value : null;
+});
+
+// Wait for new tab to appear
+When('I wait for a new tab to open', async function () {
+    const newPage = await this.context.waitForEvent('page');
+    await newPage.waitForLoadState();
+    this.page = newPage;
+});

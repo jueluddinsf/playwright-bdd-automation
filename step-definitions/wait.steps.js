@@ -1,4 +1,5 @@
 const { When } = require('@cucumber/cucumber');
+const { expect } = require('@playwright/test');
 const LocatorManager = require('../utils/LocatorManager');
 
 When('I wait for {int} seconds', async function (seconds) {
@@ -24,4 +25,9 @@ When('I wait for {string} to be attached', async function (key) {
 When('I wait for {string} to be detached', async function (key) {
     const selector = LocatorManager.getSelector(key);
     await this.page.locator(selector).waitFor({ state: 'detached' });
+});
+
+When('I wait for text {string} to appear', async function (text) {
+    await this.page.locator('body').waitFor({ state: 'visible' });
+    await expect(this.page.locator('body')).toContainText(text, { timeout: 15000 });
 });

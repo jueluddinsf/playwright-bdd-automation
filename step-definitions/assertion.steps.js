@@ -141,3 +141,41 @@ Then('the element {string} css property {string} should be {string}', async func
     const selector = LocatorManager.getSelector(key);
     await expect(this.page.locator(selector)).toHaveCSS(property, value);
 });
+
+Then('the element {string} should not be checked', async function (key) {
+    const selector = LocatorManager.getSelector(key);
+    await expect(this.page.locator(selector)).not.toBeChecked();
+});
+
+Then('the element {string} should not be focused', async function (key) {
+    const selector = LocatorManager.getSelector(key);
+    await expect(this.page.locator(selector)).not.toBeFocused();
+});
+
+Then('the element {string} should be empty', async function (key) {
+    const selector = LocatorManager.getSelector(key);
+    await expect(this.page.locator(selector)).toBeEmpty();
+});
+
+Then('the element {string} should not be empty', async function (key) {
+    const selector = LocatorManager.getSelector(key);
+    await expect(this.page.locator(selector)).not.toBeEmpty();
+});
+
+Then('I should see more than {int} elements matching {string}', async function (count, key) {
+    const selector = LocatorManager.getSelector(key);
+    const actual = await this.page.locator(selector).count();
+    expect(actual).toBeGreaterThan(count);
+});
+
+Then('I should see fewer than {int} elements matching {string}', async function (count, key) {
+    const selector = LocatorManager.getSelector(key);
+    const actual = await this.page.locator(selector).count();
+    expect(actual).toBeLessThan(count);
+});
+
+Then('I should see at least {int} elements matching {string}', async function (count, key) {
+    const selector = LocatorManager.getSelector(key);
+    const actual = await this.page.locator(selector).count();
+    expect(actual).toBeGreaterThanOrEqual(count);
+});
