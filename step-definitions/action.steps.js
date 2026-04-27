@@ -160,3 +160,21 @@ When('I save the downloaded file from {string} as {string}', async function (key
     const download = await downloadPromise;
     await download.saveAs(path);
 });
+
+When('I click {string} inside frame {string}', async function (elementKey, frameKey) {
+    const frameSelector = LocatorManager.getSelector(frameKey);
+    const elementSelector = LocatorManager.getSelector(elementKey);
+    const frame = this.page.frameLocator(frameSelector);
+    await clickActions.click(frame, elementSelector);
+});
+
+When('I type {string} into {string} inside frame {string}', async function (value, elementKey, frameKey) {
+    const frameSelector = LocatorManager.getSelector(frameKey);
+    const elementSelector = LocatorManager.getSelector(elementKey);
+    const frame = this.page.frameLocator(frameSelector);
+    await inputActions.type(frame, elementSelector, value);
+});
+
+When('I press the {string} key globally', async function (key) {
+    await this.page.keyboard.press(key);
+});

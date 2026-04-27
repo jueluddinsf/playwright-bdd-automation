@@ -8,24 +8,20 @@ When('I wait for {int} seconds', async function (seconds) {
 
 When('I wait for {string} to be visible', async function (key) {
     const selector = LocatorManager.getSelector(key);
-    // eslint-disable-next-line playwright/no-wait-for-selector
-    await this.page.waitForSelector(selector, { state: 'visible' });
+    await this.page.locator(selector).waitFor({ state: 'visible' });
 });
 
 When('I wait for {string} to be hidden', async function (key) {
     const selector = LocatorManager.getSelector(key);
-    // eslint-disable-next-line playwright/no-wait-for-selector
-    await this.page.waitForSelector(selector, { state: 'hidden' });
+    await this.page.locator(selector).waitFor({ state: 'hidden' });
 });
 
 When('I wait for {string} to be attached', async function (key) {
     const selector = LocatorManager.getSelector(key);
-    // eslint-disable-next-line playwright/no-wait-for-selector
-    await this.page.waitForSelector(selector, { state: 'attached' });
+    await this.page.locator(selector).waitFor({ state: 'attached' });
 });
 
 When('I wait for {string} to be detached', async function (key) {
     const selector = LocatorManager.getSelector(key);
-    // eslint-disable-next-line playwright/no-wait-for-selector
-    await this.page.waitForSelector(selector, { state: 'detached' });
+    await this.page.locator(selector).waitFor({ state: 'detached' });
 });
