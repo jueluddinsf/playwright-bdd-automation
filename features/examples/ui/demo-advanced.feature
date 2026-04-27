@@ -1,7 +1,7 @@
 Feature: Advanced Reusable Steps
 
   Scenario: Advanced Form and Browser Actions
-    Given I navigate to "BASE_URL"
+    Given I navigate to "https://www.saucedemo.com"
     Then the page title should be "Swag Labs"
         # Form filling
     When I fill "login.username" with "standard_user"
@@ -23,7 +23,7 @@ Feature: Advanced Reusable Steps
     Then I should see "inventory.firstItemName"
 
   Scenario: Advanced Assertions and Waits
-    Given I navigate to "BASE_URL"
+    Given I navigate to "https://www.saucedemo.com"
     When I type "standard_user" into "login.username"
     Then the element "login.username" should have value "standard_user"
     When I wait for "login.password" to be visible

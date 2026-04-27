@@ -1,7 +1,7 @@
 Feature: Reusable Steps Demo
 
     Scenario: Login using generic steps
-        Given I navigate to "BASE_URL"
+        Given I navigate to "https://www.saucedemo.com"
         When I fill "login.username" with "standard_user"
         And I fill "login.password" with "secret_sauce"
         And I click "login.loginButton"
@@ -11,7 +11,7 @@ Feature: Reusable Steps Demo
 
     @text-validation
     Scenario: Validate generic text presence
-        Given I navigate to "BASE_URL"
+        Given I navigate to "https://www.saucedemo.com"
         Then I should see text "Swag Labs"
         And I should not see text "Pizza Hut"
         And the element "login.loginButton" should contain text "Login"
