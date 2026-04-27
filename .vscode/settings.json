@@ -1,10 +1,11 @@
 {
-  "cucumberautocomplete.steps": [
-    "step-definitions/**/*.js"
+  "cucumber.features": [
+    "src/test/**/*.feature",
+    "features/**/*.feature",
+    "tests/**/*.feature",
+    "*specs*/**/*.feature"
   ],
-  "cucumberautocomplete.syncfeatures": "features/*.feature",
-  "cucumberautocomplete.strictGherkinCompletion": false,
-  "files.associations": {
-    "*.feature": "gherkin"
-  }
+  "cucumber.glue": [
+    "step-definitions/**/*.js"
+  ]
 }

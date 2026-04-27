@@ -179,3 +179,41 @@ Then('I should see at least {int} elements matching {string}', async function (c
     const actual = await this.page.locator(selector).count();
     expect(actual).toBeGreaterThanOrEqual(count);
 });
+
+// ─── Accessibility Assertions ───────────────────────────────────────────────────
+
+/**
+ * Assert the placeholder text of a form input.
+ * @example Then the element "SearchField" placeholder should be "Search here..."
+ */
+Then('the element {string} placeholder should be {string}', async function (key, placeholder) {
+    const selector = LocatorManager.getSelector(key);
+    await expect(this.page.locator(selector)).toHaveAttribute('placeholder', placeholder);
+});
+
+/**
+ * Assert the ARIA role of an element for accessibility compliance.
+ * @example Then the element "SubmitButton" should have role "button"
+ */
+Then('the element {string} should have role {string}', async function (key, role) {
+    const selector = LocatorManager.getSelector(key);
+    await expect(this.page.locator(selector)).toHaveAttribute('role', role);
+});
+
+/**
+ * Assert the aria-label of an element.
+ * @example Then the element "CloseIcon" should have aria-label "Close dialog"
+ */
+Then('the element {string} should have aria-label {string}', async function (key, label) {
+    const selector = LocatorManager.getSelector(key);
+    await expect(this.page.locator(selector)).toHaveAttribute('aria-label', label);
+});
+
+/**
+ * Assert the tab index of an element (useful for keyboard navigation testing).
+ * @example Then the element "SkipLink" should have tabindex "0"
+ */
+Then('the element {string} should have tabindex {string}', async function (key, tabindex) {
+    const selector = LocatorManager.getSelector(key);
+    await expect(this.page.locator(selector)).toHaveAttribute('tabindex', tabindex);
+});

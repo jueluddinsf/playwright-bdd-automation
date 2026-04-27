@@ -178,3 +178,77 @@ When('I type {string} into {string} inside frame {string}', async function (valu
 When('I press the {string} key globally', async function (key) {
     await this.page.keyboard.press(key);
 });
+
+// ─── List / Collection Interactions ──────────────────────────────────────────
+
+/**
+ * Click the Nth element in a collection (1-based index).
+ * @example When I click the 3rd item in "SearchResults"
+ */
+When('I click the {int} item in {string}', async function (index, key) {
+    const selector = LocatorManager.getSelector(key);
+    await this.page
+        .locator(selector)
+        .nth(index - 1)
+        .click();
+});
+
+/**
+ * Click the first element in a collection that contains specific visible text.
+ * @example When I click "ProductCard" containing text "iPhone 15"
+ */
+When('I click {string} containing text {string}', async function (key, text) {
+    const selector = LocatorManager.getSelector(key);
+    await this.page.locator(selector).filter({ hasText: text }).first().click();
+});
+
+/**
+ * Scroll inside a specific overflow container by a pixel offset.
+ * @example When I scroll "ResultsList" by 500 pixels
+ */
+When('I scroll {string} by {int} pixels', async function (key, pixels) {
+    const selector = LocatorManager.getSelector(key);
+    await this.page.locator(selector).evaluate((el, px) => {
+        el.scrollTop += px;
+    }, pixels);
+});
+
+// ─── Debounce-safe Typing ─────────────────────────────────────────────────────
+
+/**
+ * Type character-by-character with a delay — triggers onChange/debounce handlers.
+ * @example When I slowly type "hello" into "SearchField"
+ */
+When('I slowly type {string} into {string}', async function (value, key) {
+    const selector = LocatorManager.getSelector(key);
+    await this.page.locator(selector).pressSequentially(value, { delay: 80 });
+});
+
+// ─── Keyboard Navigation ──────────────────────────────────────────────────────
+
+/**
+ * Move keyboard focus forward N times using the Tab key.
+ * @example When I press Tab 3 times
+ */
+When('I press Tab {int} times', async function (count) {
+    for (let i = 0; i < count; i++) {
+        await this.page.keyboard.press('Tab');
+    }
+});
+
+/**
+ * Press Escape — closes modals, dropdowns, and overlays.
+ * @example When I press Escape
+ */
+When('I press Escape', async function () {
+    await this.page.keyboard.press('Escape');
+});
+
+/**
+ * Press Enter on a specific element — triggers form submission or button actions.
+ * @example When I press Enter on "SearchButton"
+ */
+When('I press Enter on {string}', async function (key) {
+    const selector = LocatorManager.getSelector(key);
+    await this.page.locator(selector).press('Enter');
+});

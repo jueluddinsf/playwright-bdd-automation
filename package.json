@@ -17,6 +17,7 @@
     "@cucumber/cucumber": "*",
     "@cucumber/pretty-formatter": "*",
     "@eslint/js": "^10.0.1",
+    "@faker-js/faker": "^10.4.0",
     "@playwright/test": "*",
     "cross-env": "*",
     "eslint": "*",

@@ -94,3 +94,23 @@ When('I wait for a new tab to open', async function () {
     await newPage.waitForLoadState();
     this.page = newPage;
 });
+
+/**
+ * Navigate a URL in a new browser tab and switch to it.
+ * @example When I open "https://example.com" in a new tab
+ */
+When('I open {string} in a new tab', async function (url) {
+    const newPage = await this.context.newPage();
+    await newPage.goto(url);
+    this.page = newPage;
+});
+
+/**
+ * Switch focus to the most recently opened tab.
+ * @example When I switch to the last opened tab
+ */
+When('I switch to the last opened tab', async function () {
+    const pages = this.context.pages();
+    this.page = pages[pages.length - 1];
+    await this.page.bringToFront();
+});
