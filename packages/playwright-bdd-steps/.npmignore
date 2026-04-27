@@ -1,8 +1,0 @@
-# Exclude dev/test files from the published package
-node_modules/
-*.test.js
-*.spec.js
-.eslintrc*
-.prettierrc*
-coverage/
-.nyc_output/
