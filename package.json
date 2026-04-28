@@ -43,6 +43,6 @@
     "prettier": "*"
   },
   "dependencies": {
-    "playwright-bdd-steps": "file:lib/playwright-bdd-steps-1.0.3.tgz"
+    "playwright-bdd-steps": "file:lib/playwright-bdd-steps-1.0.6.tgz"
   }
 }
