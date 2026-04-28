@@ -338,6 +338,7 @@ Recommended tag names:
 | `@regression` | Broader suite before release |
 | `@api` | API-only scenarios |
 | `@ui` | Browser UI scenarios |
+| `@auth` | Automatically injects the global authentication state (bypassing login) |
 | `@setup` | Session setup or precondition scenarios |
 | `@wip` | Work in progress, usually excluded from CI |
 
@@ -397,29 +398,27 @@ Scenario: Add an item to the cart
 
 ### Login Once, Reuse Browser State
 
-Use the auth state helpers when repeated UI login makes the suite slow.
+Use the global authentication setup when repeated UI login makes the suite slow. This allows you to log in once for the entire test run and reuse that session across all tests automatically.
 
-Setup scenario:
-
-```gherkin
-@setup
-Scenario: Save logged-in user state
-  Given I navigate to "https://www.saucedemo.com"
-  When I fill "login.username" with "standard_user"
-  And I fill "login.password" with "secret_sauce"
-  And I click "login.loginButton"
-  Then I should see "inventory.title"
-  When I save the browser state to "standard-user.json"
+**1. Generate the session state:**
+Run the setup script from your terminal (or in CI before your tests):
+```bash
+npm run setup:auth
 ```
+This generates an `auth/state.json` file.
 
-Daily test scenario:
+**2. Use the `@auth` tag in your scenario:**
+Add the `@auth` tag to any Feature or Scenario that requires a logged-in user. The framework will automatically inject the `state.json`, allowing you to bypass the login steps and start directly on the secure page.
 
 ```gherkin
+@auth
 Scenario: Open inventory with saved session
-  When I load the browser state from "standard-user.json"
+  # No login steps needed! We jump straight to the authenticated page.
   Given I navigate to "https://www.saucedemo.com/inventory.html"
   Then I should see "inventory.title"
 ```
+
+*(Note: The legacy step helpers `When I save the browser state to...` and `When I load the browser state from...` are still available if you need to handle multiple distinct user roles within a single test run).*
 
 ### API Plus UI Validation
 

@@ -4,6 +4,7 @@
   "description": "Enterprise codeless Playwright + Cucumber BDD framework powered by reusable Gherkin steps",
   "main": "index.js",
   "scripts": {
+    "setup:auth": "node setup/global-setup.js",
     "test": "cucumber-js",
     "test:local": "cross-env TEST_ENV=local cucumber-js",
     "test:sat": "cross-env TEST_ENV=sat cucumber-js",

@@ -1,6 +1,8 @@
 const { Before, After, BeforeAll, AfterAll, Status, setDefaultTimeout } = require('@cucumber/cucumber');
 const { chromium, expect } = require('@playwright/test');
 const env = require('../config/env');
+const fs = require('fs');
+const path = require('path');
 
 setDefaultTimeout(60000);
 
@@ -44,8 +46,18 @@ AfterAll(async () => {
     }
 });
 
-Before(async function () {
-    this.context = await browser.newContext();
+Before(async function (scenario) {
+    const contextOptions = {};
+    
+    // Check if the scenario or feature has the @auth tag
+    const requiresAuth = scenario.pickle.tags.some(tag => tag.name === '@auth');
+    const authPath = path.resolve(__dirname, '../auth/state.json');
+
+    if (requiresAuth && fs.existsSync(authPath)) {
+        contextOptions.storageState = authPath;
+    }
+
+    this.context = await browser.newContext(contextOptions);
     this.page = await this.context.newPage();
 
     // Increase timeouts for slower government environments

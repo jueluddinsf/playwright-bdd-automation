@@ -83,6 +83,11 @@ npm run test:performance
 npm run test:dry
 ```
 
+### Generate Global Authentication State
+```bash
+npm run setup:auth
+```
+
 ### View Reports
 After execution, an HTML report is generated at `reports/report.html`.
 
@@ -186,7 +191,13 @@ npx cucumber-js features/tests/ui/login.feature
 
 For the full reusable step guide and catalog, see [docs/reusable-step-library-guide.md](docs/reusable-step-library-guide.md).
 
-### Step 5: Create Composite Step Definitions
+### Step 5: Use Global Authentication (Bypass Login)
+Instead of writing out the login steps for every scenario, you can generate a global authentication state and inject it using a tag.
+1. Run `npm run setup:auth` to securely save the session state.
+2. Add the `@auth` tag to your Feature or Scenario.
+3. Start your scenario directly on the authenticated page (e.g., `Given I navigate to "https://www.saucedemo.com/inventory.html"`).
+
+### Step 6: Create Composite Step Definitions
 When scenarios become long, group repeated reusable steps into one project-specific step definition in `step-definitions/`. These are also called composite or business-flow steps.
 
 Important: Cucumber JS does not provide a supported public API to run one Gherkin step from inside another Gherkin step. Instead of calling step text inside step text, put the shared behavior in helper code and call that helper from your composite step.
